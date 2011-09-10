@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name=viewport content="width=520, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+		<title>Touch Library Tests</title>	
+		<style>
+		  html, body { margin:0; padding:0; overflow:hidden; width: 100%; height:100%; }
+		  #main { margin:0; padding:0; width:100%; height:100%; position:relative; background:#333; }
+		  #alert { width:200px; height:50px; position:absolute; top:50%; left:50%; margin-top:-25px; margin-left:-100px; background:#fff; -webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px; font-size:20px; font-weight:bold; text-align:center; line-height:50px; }
+		</style>
+	</head>
+	<body>
+	  <div id="main">
+	    <div id="alert"></div>
+	  </div>
+    <script src="js/jquery.min.js"> </script>
+  	<script src="js/jquery.touchme.js"> </script>
+  	<script>
+  	  var alert_open = false;
+  	  var to;
+  		function showAlert (text) {
+  		  if (!alert_open) {
+  		    $('#alert').html(text);
+  		    clearTimeout(to);
+  		    to = setTimeout(function () {
+            $('#alert').html('');
+  		    }, 2000);
+  		  } else {
+  		    $('#alert').html(text);
+  		    clearTimeout(to);
+  		    to = setTimeout(function () {
+            $('#alert').html('');
+  		    }, 2000);
+  		  }
+  		}
+  		
+  		$(function(){
+  		  
+  		  $('#main').touchme({
+  		    detect: {
+  		      horizontal: true,
+  		      vertical: true,
+  		      diagonal: true,
+  		      pinch: true,
+  		      expand: true
+  		    },
+  		    swipeRight: function (e) {
+  		      showAlert('swipped right');
+  		    },
+  		    swipeLeft: function (e) {
+  		      showAlert('swipped left');
+  		    },
+  		    swipeUp: function (e) {
+  		      showAlert('swipped up');
+  		    },
+  		    swipeDown: function (e) {
+  		      showAlert('swiped down');
+  		    },
+  		    swipeUpLeft: function (e) {
+  		      showAlert('swiped up left');
+  		    },
+  		    swipeUpRight: function (e) {
+  		      showAlert('swiped up right');
+  		    },
+  		    swipeDownLeft: function (e) {
+  		      showAlert('swiped down left');
+  		    },
+  		    swipeDownRight: function (e) {
+  		      showAlert('swiped down right');
+  		    },
+  		    pinch: function (e) {
+  		      showAlert('pinched');
+  		    },
+  		    expand: function (e) {
+  		      showAlert('expanded');
+  		    }
+  		  });
+  		  
+  		  $('#alert').touchme({
+  		    detect: {
+  		      drag: true,
+  		      rotate: true
+  		    },
+  		    onDragEnd: function (e) {
+  		      showAlert('drag ended');
+  		    },
+  		    rotate: function (e) {
+  		      console.log(e.rotation);
+  		    }
+  		  });
+		    
+  		});
+  	</script>
+	</body>
+</html>
+
+
