@@ -43,6 +43,8 @@
             swipeDownLeft: function (target) {},
             gestureChange: function (event) {},
             onGestureEnd: function (event) {},
+            onDragStart: function (event) {},
+            onDrag: function (event) {},
             onDragEnd: function (event) {},
             inMotion: function (event) {},
             expand: function (event) {},
@@ -102,10 +104,17 @@
                     }
                     
                     if (config.detect.drag) {
-                        $(e.target).css({
-                            top: y + "px",
-                            left: x + "px"
-                        });
+                        var element = $(e.target),
+                            origX = element.data('startX'),
+                            origY = element.data('startY'),
+                            dX = x - origX,
+                            dY = y - origY;
+                            
+                        element.css({
+                            top: element.data('startT') + dY + "px",
+                            left: element.data('startL') + dX + "px"
+                        })
+                            
                         this.addEventListener("touchend", onDragEnd, false);
                     }
 
@@ -174,6 +183,12 @@
 
             function onTouchStart(e) {
                 if (e.touches.length <= 1) {
+                    $(e.target).data({
+                        "startT": $(e.target).position().top,
+                        "startL": $(e.target).position().left,
+                        "startY": e.touches[0].pageY,
+                        "startX": e.touches[0].pageX
+                    });
                     startX = e.touches[0].pageX;
                     startY = e.touches[0].pageY;
                     isMoving = true;
